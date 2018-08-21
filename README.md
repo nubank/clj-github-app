@@ -11,13 +11,16 @@ A library to implement [GitHub Apps] in Clojure.
 
 Includes:
 
-* [Webhook payload signature checker] with secure comparison.
+* [Webhook payload signature checker][webhook-signatures] with [secure comparison](https://github.com/weavejester/crypto-equality).
 * API client with HTTP connection pool.
-* Access token manager with caching ([Authenticating with GitHub Apps] is tricky)
+* Access token manager with caching ([Authenticating with GitHub Apps] is tricky).
 
 ## Usage
 
 ### Checking webhook signatures
+
+When implementing a webhook handler, it is recommended to check the webhook request signature before processing it.
+Please read the [official documentation][webhook-signatures] first.
 
 Imagine you have a webhook handler:
 
@@ -101,39 +104,43 @@ You can [authenticate as a GitHub App][as-app]:
 (client/app-request @client :get "/app" {:accept "application/vnd.github.machine-man-preview+json"})
 ```
 
-And also [authenticate as an installation][as-installation]. For this you need Installation ID,
+You can also [authenticate as an installation][as-installation]. For this you need Installation ID,
 (which is usually given to you in webhook payloads):
 
 ```clj
-(client/request* @client 42 {:method :get :url "repos/myname/myrepo/issues/123/comments")
-(client/request @client 42 :get "repos/myname/myrepo/issues/123/comments" {})
+(client/request* @client 42 {:method :get :url "/repos/myname/myrepo/issues/123/comments")
+(client/request @client 42 :get "/repos/myname/myrepo/issues/123/comments" {})
 ```
 
 All these functions can accept either a full URL or just a relative path, which will be automatically appended to the base
 GitHub API URL, given earlier to `make-app-client`.  
-The "path only" mode is useful when you are constructing it yourself and don't want to repeat the base API URL there.  
-The "full URL" mode is useful when you use a specific URL extracted from a webhook payload
+The "path only" mode is useful when you are constructing the URL yourself and don't want to repeat the base API URL there.
+The path can start with a `/` or not, which makes no difference, both cases are handled the same way.
+The "full URL" mode is useful when you use a URL extracted from a webhook payload
 and don't want to strip the base URL part from there.
 
 ```clj
 ;; Use github-api-url (provided earlier to make-app-client) as base API URL
+(client/app-request @client :get "foo" {})
 (client/app-request @client :get "/foo" {})
 ;; The same call, but without relying on github-api-url
 (client/app-request @client :get "https://api.github.com/foo" {})
 ```
 
-### Convenience wrappers for API endpoints
+#### Convenience wrappers for API endpoints
 
 This library does not provide any wrappers like
 
-    (list-issue-comments "owner" "repo" "123" {:since "2018-01-01"})
+```clj
+(list-issue-comments "owner" "repo" "123" {:since "2018-01-01"})
+```
 
-These wrappers are really easy to implement on your own:
+Such wrappers are really easy to implement on your own:
 
 ```clj
 (defn create-list-issue-comments-request [owner repo issue-number params]
   {:method       :get
-   :url          (format "repos/%s/%s/issues/%s/comments" owner repo issue-number)
+   :url          (format "/repos/%s/%s/issues/%s/comments" owner repo issue-number)
    :query-params params})
 ```
 
@@ -145,17 +152,40 @@ and then use like this:
 
 Full GitHub API reference can be found [here](https://developer.github.com/v3/).
 
+## Development
+
+With every commit, add important changes from it to the "Unreleased" section of _CHANGELOG.md_.
+
+### Release procedure
+
+Before releasing:
+
+1. Commit all changes.
+2. Add a section for the upcoming version to _CHANGELOG.md_, move stuff from then "Unreleased" section there, link the version.
+3. Update `[Unreleased]` link in the end of the file 
+4. Commit the changes to _CHANGELOG.md_.
+5. Run `lein release` as described below.
+
+TODO automate this changelog work. 
+
+Library version will be updated in _project.clj_ and _README.md_ automatically after calling `lein release`.
+
+    lein release :patch
+    # or
+    lein release :minor
+    # or
+    lein release :major
+
 ## License
 
 Copyright © 2018 Dmitrii Balakhonskii
 
-Distributed under the Eclipse Public License either version 1.0 or (at
-your option) any later version.
+Distributed under the Eclipse Public License version 1.0.
 
 
 [GitHub Apps]: https://developer.github.com/apps/about-apps/#about-github-apps
 [Authenticating with GitHub Apps]: https://developer.github.com/apps/building-github-apps/authenticating-with-github-apps/
-[Webhook payload signature checker]: https://developer.github.com/webhooks/securing/#validating-payloads-from-github
+[webhook-signatures]: https://developer.github.com/webhooks/securing/#validating-payloads-from-github
 [as-app]: https://developer.github.com/apps/building-github-apps/authenticating-with-github-apps/#accessing-api-endpoints-as-a-github-app
 [as-installation]: https://developer.github.com/apps/building-github-apps/authenticating-with-github-apps/#accessing-api-endpoints-as-an-installation
 [clj-http]: https://github.com/dakrone/clj-http
