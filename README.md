@@ -6,7 +6,7 @@
 A library to implement [GitHub Apps] in Clojure.
 
 ```clj
-[me.dryewo/clj-github-app "0.0.0"]
+[me.dryewo/clj-github-app "0.1.0"]
 ```
 
 Includes:
