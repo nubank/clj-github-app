@@ -1,4 +1,4 @@
-(defproject me.dryewo/clj-github-app "0.1.0"
+(defproject me.dryewo/clj-github-app "0.1.1"
   :description "A library to implement GitHub Apps in Clojure."
   :url "http://github.com/dryewo/clj-github-app"
   :license {:name "Eclipse Public License"

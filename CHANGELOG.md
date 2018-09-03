@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 
 ## [Unreleased]
+
+## [0.1.1] — 2018-09-03
 ### Added
 * Development-related:
   * Use lein-ancient in CI to prevent outdated dependencies
@@ -19,4 +21,5 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Access token manager with caching
 
 
-[Unreleased]: https://github.com/dryewo/clj-github-app/compare/0.1.0...HEAD
+[0.1.1]: https://github.com/dryewo/clj-github-app/compare/0.1.0...0.1.1
+[Unreleased]: https://github.com/dryewo/clj-github-app/compare/0.1.1...HEAD
