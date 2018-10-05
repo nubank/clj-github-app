@@ -158,17 +158,10 @@ With every commit, add important changes from it to the "Unreleased" section of 
 
 ### Release procedure
 
-Before releasing:
-
-1. Commit all changes.
-2. Add a section for the upcoming version to _CHANGELOG.md_, move stuff from then "Unreleased" section there, link the version.
-3. Update `[Unreleased]` link in the end of the file 
-4. Commit the changes to _CHANGELOG.md_.
-5. Run `lein release` as described below.
-
-TODO automate this changelog work. 
+Run `lein release` as described below, depending on how much changes are made since previous release.
 
 Library version will be updated in _project.clj_ and _README.md_ automatically after calling `lein release`.
+`## Unreleased` section int _CHANGELOG.md_ will be automatically changed into the version being released.
 
     lein release :patch
     # or
