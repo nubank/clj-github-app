@@ -4,8 +4,8 @@
   :license {:name "Eclipse Public License"
             :url  "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[clj-http "3.9.1"]
-                 [org.clojure/core.cache "0.7.1"]
-                 [com.auth0/java-jwt "3.4.1"]
+                 [org.clojure/core.cache "0.7.2"]
+                 [com.auth0/java-jwt "3.5.0"]
                  [org.bouncycastle/bcprov-jdk15on "1.60"]
                  [org.bouncycastle/bcpkix-jdk15on "1.60"]
                  [pandect "0.6.1"]
@@ -16,7 +16,7 @@
             [lein-shell "0.5.0"]
             [lein-ancient "0.6.15"]
             [lein-changelog "0.3.2"]]
-  :profiles {:dev {:dependencies [[org.clojure/clojure "1.9.0"]]}}
+  :profiles {:dev {:dependencies [[org.clojure/clojure "1.10.0"]]}}
   :deploy-repositories [["releases" :clojars]]
   :aliases {"update-readme-version" ["shell" "sed" "-i" "s/\\\\[me\\.dryewo\\\\/clj-github-app \"[0-9.]*\"\\\\]/[me\\.dryewo\\\\/clj-github-app \"${:version}\"]/" "README.md"]}
   :release-tasks [["shell" "git" "diff" "--exit-code"]
