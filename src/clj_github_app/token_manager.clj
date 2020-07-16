@@ -94,7 +94,7 @@
       (fn []
         (make-app-token signing-algorithm github-app-id))
       (fn [installation-id]
-        (let [url (uri/resolve-uri (str github-api-url "/") (str "installations/" (codec/url-encode (str installation-id)) "/access_tokens"))]
+        (let [url (uri/resolve-uri (str github-api-url "/") (str "app/installations/" (codec/url-encode (str installation-id)) "/access_tokens"))]
           (:body (http/post url
                             {:oauth-token (make-app-token signing-algorithm github-app-id)
                              :as          :json
