@@ -21,7 +21,7 @@
   (testing "Installation token is retrieved correctly"
     (with-redefs [tm/make-app-token (fn [_ _] "app-token")
                   http/post         (fn [url opts]
-                                      (is (= url "https://github-api.example.com/installations/1/access_tokens"))
+                                      (is (= url "https://github-api.example.com/app/installations/1/access_tokens"))
                                       (is (= (:oauth-token opts) "app-token"))
                                       access-token-response)]
       (let [tm (make-test-token-manager)]
