@@ -1,12 +1,12 @@
 # clj-github-app
-[![Build Status](https://travis-ci.org/dryewo/clj-github-app.svg?branch=master)](https://travis-ci.org/dryewo/clj-github-app)
-[![codecov](https://codecov.io/gh/dryewo/clj-github-app/branch/master/graph/badge.svg)](https://codecov.io/gh/dryewo/clj-github-app)
-[![Clojars Project](https://img.shields.io/clojars/v/me.dryewo/clj-github-app.svg)](https://clojars.org/me.dryewo/clj-github-app)
+[![Build Status](https://travis-ci.org/nubank/clj-github-app.svg?branch=master)](https://travis-ci.org/nubank/clj-github-app)
+[![codecov](https://codecov.io/gh/nubank/clj-github-app/branch/master/graph/badge.svg)](https://codecov.io/gh/nubank/clj-github-app)
+[![Clojars Project](https://img.shields.io/clojars/v/nubank/clj-github-app.svg)](https://clojars.org/nubank/clj-github-app)
 
 A library to implement [GitHub Apps] in Clojure.
 
 ```clj
-[me.dryewo/clj-github-app "0.1.3"]
+[nubank/clj-github-app "0.1.4"]
 ```
 
 Includes:

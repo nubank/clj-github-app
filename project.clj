@@ -1,9 +1,10 @@
-(defproject me.dryewo/clj-github-app "0.1.3"
+(defproject nubank/clj-github-app "0.1.3"
   :description "A library to implement GitHub Apps in Clojure."
-  :url "http://github.com/dryewo/clj-github-app"
+  :url "http://github.com/nubank/clj-github-app"
   :license {:name "Eclipse Public License"
             :url  "http://www.eclipse.org/legal/epl-v10.html"}
-  :dependencies [[clj-http "3.9.1"]
+  :dependencies [[cheshire "5.10.0"]
+                 [clj-http "3.9.1"]
                  [org.clojure/core.cache "0.7.2"]
                  [com.auth0/java-jwt "3.5.0"]
                  [org.bouncycastle/bcprov-jdk15on "1.60"]
@@ -16,9 +17,9 @@
             [lein-shell "0.5.0"]
             [lein-ancient "0.6.15"]
             [lein-changelog "0.3.2"]]
-  :profiles {:dev {:dependencies [[org.clojure/clojure "1.10.0"]]}}
+  :profiles {:dev {:dependencies [[org.clojure/clojure "1.10.3"]]}}
   :deploy-repositories [["releases" :clojars]]
-  :aliases {"update-readme-version" ["shell" "sed" "-i" "s/\\\\[me\\.dryewo\\\\/clj-github-app \"[0-9.]*\"\\\\]/[me\\.dryewo\\\\/clj-github-app \"${:version}\"]/" "README.md"]}
+  :aliases {"update-readme-version" ["shell" "sed" "-i" "s/\\\\[nubank\\/clj-github-app \"[0-9.]*\"\\\\]/[nubank\\/clj-github-app \"${:version}\"]/" "README.md"]}
   :release-tasks [["shell" "git" "diff" "--exit-code"]
                   ["change" "version" "leiningen.release/bump-version"]
                   ["change" "version" "leiningen.release/bump-version" "release"]
