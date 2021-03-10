@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 
 ## [Unreleased]
+### Changed
+* Update github url to address deprecation
+
+### Added
+* Include cheshire as a project dependency
 
 ## [0.1.3] — 2019-01-23
 ### Changed
@@ -29,7 +34,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Access token manager with caching
 
 
-[0.1.1]: https://github.com/dryewo/clj-github-app/compare/0.1.0...0.1.1
-[0.1.2]: https://github.com/dryewo/clj-github-app/compare/0.1.1...0.1.2
-[0.1.3]: https://github.com/dryewo/clj-github-app/compare/0.1.2...0.1.3
-[Unreleased]: https://github.com/dryewo/clj-github-app/compare/0.1.3...HEAD
+[0.1.1]: https://github.com/nubank/clj-github-app/compare/0.1.0...0.1.1
+[0.1.2]: https://github.com/nubank/clj-github-app/compare/0.1.1...0.1.2
+[0.1.3]: https://github.com/nubank/clj-github-app/compare/0.1.2...0.1.3
+[Unreleased]: https://github.com/nubank/clj-github-app/compare/0.1.3...HEAD
