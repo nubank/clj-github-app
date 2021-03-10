@@ -3,7 +3,8 @@
   :url "http://github.com/dryewo/clj-github-app"
   :license {:name "Eclipse Public License"
             :url  "http://www.eclipse.org/legal/epl-v10.html"}
-  :dependencies [[clj-http "3.9.1"]
+  :dependencies [[cheshire "5.10.0"]
+                 [clj-http "3.9.1"]
                  [org.clojure/core.cache "0.7.2"]
                  [com.auth0/java-jwt "3.5.0"]
                  [org.bouncycastle/bcprov-jdk15on "1.60"]
