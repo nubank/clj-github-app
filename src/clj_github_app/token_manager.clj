@@ -1,25 +1,26 @@
 (ns clj-github-app.token-manager
-  (:require [clojure.core.cache :as cache]
-            [ring.util.codec :as codec]
-            [clj-http.client :as http]
-            [org.bovinegenius.exploding-fish :as uri])
+  (:require [clj-http.client :as http]
+            [clojure.core.cache :as cache]
+            [org.bovinegenius.exploding-fish :as uri]
+            [ring.util.codec :as codec])
   (:import (clojure.core.cache CacheProtocol)
-           (java.util Date)
-           (java.text SimpleDateFormat)
+           (com.auth0.jwt JWT)
+           (com.auth0.jwt.algorithms Algorithm)
+           (java.io StringReader)
            (java.security KeyFactory)
            (java.security.spec PKCS8EncodedKeySpec)
-           (org.bouncycastle.openssl PEMParser)
+           (java.text SimpleDateFormat)
+           (java.util Date)
            (org.bouncycastle.jce.provider BouncyCastleProvider)
-           (java.io StringReader)
-           (com.auth0.jwt.algorithms Algorithm)
-           (com.auth0.jwt JWT)))
+           (org.bouncycastle.openssl PEMParser)))
 
 
 ;; See make-token-manager function below
+
+
 (defprotocol GitHubTokenManager
   (get-app-token [token-manager])
   (get-installation-token [token-manager installation-id]))
-
 
 (defn- make-signing-algorithm [pem-str]
   (let [private-key (->> pem-str
@@ -31,7 +32,6 @@
                          (.generatePrivate (KeyFactory/getInstance "RSA" (BouncyCastleProvider.))))]
     ;; Only private key given (only for signing, not for verifying)
     (Algorithm/RSA256 nil private-key)))
-
 
 (defn- make-app-token [signing-algorithm app-id]
   ;; If you get: 'Issued at' claim ('iat') must be an Integer representing the time that the assertion was issued
@@ -45,37 +45,35 @@
         (.withExpiresAt now+8m)
         (.sign signing-algorithm))))
 
-
 (cache/defcache GithubAppTokenCache [cache]
   CacheProtocol
   (lookup [this item]
-    (let [ret (cache/lookup this item ::nope)]
-      (when-not (= ::nope ret) ret)))
+          (let [ret (cache/lookup this item ::nope)]
+            (when-not (= ::nope ret) ret)))
   (lookup [this item not-found]
-    (if (cache/has? this item)
-      (get cache item)
-      not-found))
+          (if (cache/has? this item)
+            (get cache item)
+            not-found))
   (has? [this item]
-    (let [now (Date.)
-          {:keys [expires-at-parsed]} (get cache item)]
-      (when expires-at-parsed
-        (.before now expires-at-parsed))))
+        (let [now (Date.)
+              {:keys [expires-at-parsed]} (get cache item)]
+          (when expires-at-parsed
+            (.before now expires-at-parsed))))
   (hit [this item] this)
   (miss [this item result]
-    (let [now               (Date.)
-          expires-at-parsed (try
-                              (.parse (SimpleDateFormat. "yyyy-MM-dd'T'HH:mm:ssX") (:expires_at result))
-                              (catch Exception _
-                                now))]
-      (GithubAppTokenCache. (assoc cache item (assoc result :expires-at-parsed expires-at-parsed)))))
+        (let [now               (Date.)
+              expires-at-parsed (try
+                                  (.parse (SimpleDateFormat. "yyyy-MM-dd'T'HH:mm:ssX") (:expires_at result))
+                                  (catch Exception _
+                                    now))]
+          (GithubAppTokenCache. (assoc cache item (assoc result :expires-at-parsed expires-at-parsed)))))
   (seed [_ base]
-    (GithubAppTokenCache. base))
+        (GithubAppTokenCache. base))
   (evict [_ item]
-    (GithubAppTokenCache. (dissoc cache item)))
+         (GithubAppTokenCache. (dissoc cache item)))
   Object
   (toString [_]
-    (str cache)))
-
+            (str cache)))
 
 (defrecord GitHubTokenManagerImpl [cache get-app-token-fn get-installation-token-fn]
   GitHubTokenManager
@@ -85,17 +83,16 @@
     (:token (cache/lookup (swap! cache cache/through-cache installation-id get-installation-token-fn)
                           installation-id))))
 
-
 (defn make-token-manager [github-api-url github-app-id private-key-pem-str]
   (let [signing-algorithm (make-signing-algorithm private-key-pem-str)
         cache             (atom (GithubAppTokenCache. {}))]
     (GitHubTokenManagerImpl.
-      cache
-      (fn []
-        (make-app-token signing-algorithm github-app-id))
-      (fn [installation-id]
-        (let [url (uri/resolve-uri (str github-api-url "/") (str "app/installations/" (codec/url-encode (str installation-id)) "/access_tokens"))]
-          (:body (http/post url
-                            {:oauth-token (make-app-token signing-algorithm github-app-id)
-                             :as          :json
-                             :accept      "application/vnd.github.machine-man-preview+json"})))))))
+     cache
+     (fn []
+       (make-app-token signing-algorithm github-app-id))
+     (fn [installation-id]
+       (let [url (uri/resolve-uri (str github-api-url "/") (str "app/installations/" (codec/url-encode (str installation-id)) "/access_tokens"))]
+         (:body (http/post url
+                           {:oauth-token (make-app-token signing-algorithm github-app-id)
+                            :as          :json
+                            :accept      "application/vnd.github.machine-man-preview+json"})))))))

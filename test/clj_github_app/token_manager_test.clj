@@ -1,17 +1,14 @@
 (ns clj-github-app.token-manager-test
-  (:require [clojure.test :refer :all]
-            [clj-github-app.token-manager :refer :all :as tm]
-            [clj-http.client :as http])
+  (:require [clj-github-app.token-manager :refer :all :as tm]
+            [clj-http.client :as http]
+            [clojure.test :refer :all])
   (:import (com.auth0.jwt JWT)))
-
 
 (def access-token-response {:body {:token      "installation-token"
                                    :expires_at "2100-07-11T22:14:10Z"}})
 
-
 (defn make-test-token-manager []
   (make-token-manager "https://github-api.example.com" "app-id" (slurp "test/example-private-key.pem")))
-
 
 (deftest works
   (testing "App token is a valid JWT with App ID included as issuer"

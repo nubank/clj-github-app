@@ -1,8 +1,7 @@
 (ns clj-github-app.webhook-signature
-  (:require [pandect.algo.sha1 :as sha1]
+  (:require [clojure.string :as str]
             [crypto.equality]
-            [clojure.string :as str]))
-
+            [pandect.algo.sha1 :as sha1]))
 
 (defn check-payload-signature [webhook-secret x-hub-signature payload]
   (if (str/blank? webhook-secret)

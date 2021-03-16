@@ -1,11 +1,10 @@
 (ns clj-github-app.client
-  (:require [clj-http.conn-mgr :as conn-mgr]
-            [clj-github-app.token-manager :as token-manager]
+  (:require [clj-github-app.token-manager :as token-manager]
             [clj-http.client :as http]
-            [org.bovinegenius.exploding-fish :as uri]
-            [clojure.string :as str])
+            [clj-http.conn-mgr :as conn-mgr]
+            [clojure.string :as str]
+            [org.bovinegenius.exploding-fish :as uri])
   (:import (java.lang AutoCloseable)))
-
 
 (defprotocol AppClient
   (app-request* [_ opts])
@@ -13,14 +12,12 @@
   (request* [_ installation-id opts])
   (request [_ installation-id method url opts]))
 
-
 (defn request-impl [connection-pool token opts]
   (http/request
-    (merge {:oauth-token        token
-            :connection-manager connection-pool
-            :as                 :json}
-           opts)))
-
+   (merge {:oauth-token        token
+           :connection-manager connection-pool
+           :as                 :json}
+          opts)))
 
 (defn remove-leading-slash [url-or-path]
   (let [trimmed-url-or-path (str/trim url-or-path)]
@@ -28,12 +25,10 @@
       (subs trimmed-url-or-path 1)
       trimmed-url-or-path)))
 
-
 (defn resolve-url [path-or-url github-api-url]
   (->> path-or-url
        remove-leading-slash
        (uri/resolve-uri (str github-api-url "/"))))
-
 
 (defrecord AppClientImpl [github-api-url token-manager connection-pool]
   AppClient
@@ -56,9 +51,8 @@
   (close [_]
     (conn-mgr/shutdown-manager connection-pool)))
 
-
 (defn make-app-client [github-api-url github-app-id private-key-pem-str connection-pool-opts]
   (AppClientImpl.
-    github-api-url
-    (token-manager/make-token-manager github-api-url github-app-id private-key-pem-str)
-    (conn-mgr/make-reusable-conn-manager connection-pool-opts)))
+   github-api-url
+   (token-manager/make-token-manager github-api-url github-app-id private-key-pem-str)
+   (conn-mgr/make-reusable-conn-manager connection-pool-opts)))
