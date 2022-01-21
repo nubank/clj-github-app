@@ -1,17 +1,17 @@
-(defproject nubank/clj-github-app "0.1.4"
+(defproject nubank/clj-github-app "0.1.5-ALPHA"
   :description "A library to implement GitHub Apps in Clojure."
   :url "http://github.com/nubank/clj-github-app"
   :license {:name "Eclipse Public License"
             :url  "http://www.eclipse.org/legal/epl-v10.html"}
-  :dependencies [[cheshire "5.10.0"]
-                 [clj-http "3.9.1"]
+  :dependencies [[cheshire/cheshire "5.10.1"]
+                 [clj-http/clj-http "3.12.3"]
                  [org.clojure/core.cache "0.7.2"]
-                 [com.auth0/java-jwt "3.5.0"]
-                 [org.bouncycastle/bcprov-jdk15on "1.60"]
-                 [org.bouncycastle/bcpkix-jdk15on "1.60"]
-                 [pandect "0.6.1"]
+                 [com.auth0/java-jwt "3.18.3"]
+                 [org.bouncycastle/bcprov-jdk15on "1.70"]
+                 [org.bouncycastle/bcpkix-jdk15on "1.70"]
+                 [pandect/pandect "0.6.1"]
                  [ring/ring-codec "1.1.1"]
-                 [crypto-equality "1.0.0"]
+                 [crypto-equality/crypto-equality "1.0.0"]
                  [org.bovinegenius/exploding-fish "0.3.6"]]
   :plugins [[lein-ancient "0.6.15"]
             [lein-changelog "0.3.2"]
