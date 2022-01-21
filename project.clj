@@ -1,4 +1,4 @@
-(defproject nubank/clj-github-app "0.1.5-ALPHA"
+(defproject nubank/clj-github-app "0.1.5"
   :description "A library to implement GitHub Apps in Clojure."
   :url "http://github.com/nubank/clj-github-app"
   :license {:name "Eclipse Public License"
