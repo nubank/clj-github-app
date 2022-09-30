@@ -30,23 +30,25 @@ Imagine you have a webhook handler:
 
 (def GITHUB_WEBHOOK_SECRET (System/getenv "GITHUB_WEBHOOK_SECRET"))
 
-(defn post-github "Checks if the webhook is valid and handles it." [request]
-  (let [{:strs [x-github-delivery x-github-event x-hub-signature]} (:headers request)
+(defn post-github
+  "Checks if the webhook is valid and handles it."
+  [request]
+  (let [{:strs [x-github-delivery x-github-event x-hub-signature-256]} (:headers request)
         payload (slurp (:body request))]
     (case (webhook-signature/check-payload-signature GITHUB_WEBHOOK_SECRET x-hub-signature payload)
-      ::webhook-signature/missing-signature {:status 400 :body "x-hub-signature header is missing"}
-      ::webhook-signature/wrong-signature {:status 401 :body "x-hub-signature does not match"}
+      ::webhook-signature/missing-signature {:status 400 :body "x-hub-signature-256 header is missing"}
+      ::webhook-signature/wrong-signature {:status 401 :body "x-hub-signature-256 does not match"}
       (let [parsed-payload  (json/parse-string payload keyword)]
         ;; process your webhook here
         {:status 200 :body "This is fine."}))))
 ```
 
-The key part here is the call to  `check-payload-signature`. It takes 3 arguments:
+The key part here is the call to  `check-payload-signature-256`. It takes 3 arguments:
 
 * `webhook-secret` — the exact secret string that you set when configuring webhook for your repo.  
-    If this argument is blank or nil, `check-payload-signature` will do nothing and return
+    If this argument is blank or nil, `check-payload-signature-256` will do nothing and return
     `:clj-github-app.webhook-signature/not-checked`.
-* `x-hub-signature` — contents of "X-Hub-Signature" request header.
+* `x-hub-signature-256` — contents of "X-Hub-Signature-256" request header.
 * `payload` — request body as a string.
 
 Possible return values:
