@@ -3,6 +3,10 @@
   :url "http://github.com/nubank/clj-github-app"
   :license {:name "Eclipse Public License"
             :url  "http://www.eclipse.org/legal/epl-v10.html"}
+  :repositories [["publish" {:url "https://clojars.org/repo"
+                             :username :env/clojars_username
+                             :password :env/clojars_passwd
+                             :sign-releases false}]]
   :dependencies [[cheshire/cheshire "5.10.1"]
                  [clj-http/clj-http "3.12.3"]
                  [org.clojure/core.cache "0.7.2"]
