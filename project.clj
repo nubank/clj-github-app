@@ -25,10 +25,10 @@
             [lein-shell "0.5.0"]]
   :profiles {:dev {:dependencies [[org.clojure/clojure "1.10.3"]]}}
   :deploy-repositories [["releases" :clojars]]
-  :aliases {"update-readme-version" ["shell" "gsed" "-i" "s|\\\\[nubank/clj-github-app \"[0-9.]*\"\\\\]|[nubank/clj-github-app \"${:version}\"]|" "README.md"]
+  :aliases {"update-readme-version" ["shell" "sed" "-i" "s|\\\\[nubank/clj-github-app \"[0-9.]*\"\\\\]|[nubank/clj-github-app \"${:version}\"]|" "README.md"]
             "lint"                  ["do" ["cljfmt" "check"] ["nsorg"]]
             "lint-fix"              ["do" ["cljfmt" "fix"] ["nsorg" "--replace"]]}
-  :release-tasks [#_["shell" "git" "diff" "--exit-code"]
+  :release-tasks [["shell" "git" "diff" "--exit-code"]
                   ["change" "version" "leiningen.release/bump-version"]
                   ["change" "version" "leiningen.release/bump-version" "release"]
                   ["changelog" "release"]
