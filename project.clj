@@ -1,4 +1,4 @@
-(defproject nubank/clj-github-app "0.1.5"
+(defproject nubank/clj-github-app "0.2.0"
   :description "A library to implement GitHub Apps in Clojure."
   :url "http://github.com/nubank/clj-github-app"
   :license {:name "Eclipse Public License"
@@ -21,10 +21,10 @@
             [lein-shell "0.5.0"]]
   :profiles {:dev {:dependencies [[org.clojure/clojure "1.10.3"]]}}
   :deploy-repositories [["releases" :clojars]]
-  :aliases {"update-readme-version" ["shell" "sed" "-i" "s|\\\\[nubank/clj-github-app \"[0-9.]*\"\\\\]|[nubank/clj-github-app \"${:version}\"]|" "README.md"]
+  :aliases {"update-readme-version" ["shell" "gsed" "-i" "s|\\\\[nubank/clj-github-app \"[0-9.]*\"\\\\]|[nubank/clj-github-app \"${:version}\"]|" "README.md"]
             "lint"                  ["do" ["cljfmt" "check"] ["nsorg"]]
             "lint-fix"              ["do" ["cljfmt" "fix"] ["nsorg" "--replace"]]}
-  :release-tasks [["shell" "git" "diff" "--exit-code"]
+  :release-tasks [#_["shell" "git" "diff" "--exit-code"]
                   ["change" "version" "leiningen.release/bump-version"]
                   ["change" "version" "leiningen.release/bump-version" "release"]
                   ["changelog" "release"]

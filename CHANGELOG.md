@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.2.0] — 2022-10-03
+
 ## [0.1.4] — 2021-03-10
 ### Changed
 * Update github url to address deprecation
@@ -40,4 +42,5 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 [0.1.2]: https://github.com/nubank/clj-github-app/compare/0.1.1...0.1.2
 [0.1.3]: https://github.com/nubank/clj-github-app/compare/0.1.2...0.1.3
 [0.1.4]: https://github.com/nubank/clj-github-app/compare/0.1.3...0.1.4
-[Unreleased]: https://github.com/nubank/clj-github-app/compare/0.1.4...HEAD
+[0.2.0]: https://github.com/nubank/clj-github-app/compare/0.1.4...0.2.0
+[Unreleased]: https://github.com/nubank/clj-github-app/compare/0.2.0...HEAD

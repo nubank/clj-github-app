@@ -6,7 +6,7 @@
 A library to implement [GitHub Apps] in Clojure.
 
 ```clj
-[nubank/clj-github-app "0.1.4"]
+[nubank/clj-github-app "0.2.0"]
 ```
 
 Includes:
