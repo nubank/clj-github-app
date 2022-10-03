@@ -35,7 +35,7 @@ Imagine you have a webhook handler:
   [request]
   (let [{:strs [x-github-delivery x-github-event x-hub-signature-256]} (:headers request)
         payload (slurp (:body request))]
-    (case (webhook-signature/check-payload-signature GITHUB_WEBHOOK_SECRET x-hub-signature payload)
+    (case (webhook-signature/check-payload-signature GITHUB_WEBHOOK_SECRET x-hub-signature-256 payload)
       ::webhook-signature/missing-signature {:status 400 :body "x-hub-signature-256 header is missing"}
       ::webhook-signature/wrong-signature {:status 401 :body "x-hub-signature-256 does not match"}
       (let [parsed-payload  (json/parse-string payload keyword)]
