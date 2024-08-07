@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [0.2.1] — 2024-08-06
 ### Changed
 * Bump dependencies
 
@@ -43,4 +45,5 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 [0.1.3]: https://github.com/nubank/clj-github-app/compare/0.1.2...0.1.3
 [0.1.4]: https://github.com/nubank/clj-github-app/compare/0.1.3...0.1.4
 [0.2.0]: https://github.com/nubank/clj-github-app/compare/0.1.4...0.2.0
-[Unreleased]: https://github.com/nubank/clj-github-app/compare/0.2.0...HEAD
+[0.2.1]: https://github.com/nubank/clj-github-app/compare/0.2.0...0.2.1
+[Unreleased]: https://github.com/nubank/clj-github-app/compare/0.2.1...HEAD
