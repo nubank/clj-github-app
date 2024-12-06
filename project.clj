@@ -12,7 +12,7 @@
                  [org.clojure/core.cache "1.1.234"]
                  [com.auth0/java-jwt "4.4.0"]
                  [org.bouncycastle/bcpkix-jdk18on "1.79"]
-                 [org.bouncycastle/bcpg-jdk18on "1.79"]
+                 [org.bouncycastle/bcprov-jdk18on "1.79"]
                  [pandect/pandect "1.0.2"]
                  [crypto-equality/crypto-equality "1.0.1"]]
   :plugins [[lein-ancient "0.7.0"]
