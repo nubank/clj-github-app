@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.3.0] — 2024-12-06
+### Changed
+* Upgrade dependencies
+  * cheshire from 5.11.0 to 5.13.0
+  * clj-http from 3.12.3 to 3.13.0
+  * org.clojure/core.cache from 1.0.225 to 1.1.234
+  * com.auth0/java-jwt from 4.0.0 to 4.4.0
+  * org.bouncycastle/* from 1.78.1 to 1.79
+* Remove some dependencies
+  * ring/ring-codec
+  * org.bovinegenius/exploding-fish
+
 ## [0.2.2] — 2024-08-07
 ### Changed
 * Bump dependencies

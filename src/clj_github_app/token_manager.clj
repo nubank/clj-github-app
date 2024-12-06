@@ -1,12 +1,12 @@
 (ns clj-github-app.token-manager
   (:require [clj-http.client :as http]
-            [clojure.core.cache :as cache]
-            [org.bovinegenius.exploding-fish :as uri]
-            [ring.util.codec :as codec])
+            [clojure.core.cache :as cache])
   (:import (clojure.core.cache CacheProtocol)
            (com.auth0.jwt JWT)
            (com.auth0.jwt.algorithms Algorithm)
            (java.io StringReader)
+           (java.net URI URLEncoder)
+           (java.nio.charset StandardCharsets)
            (java.security KeyFactory)
            (java.security.spec PKCS8EncodedKeySpec)
            (java.text SimpleDateFormat)
@@ -83,6 +83,16 @@
     (:token (cache/lookup (swap! cache cache/through-cache installation-id get-installation-token-fn)
                           installation-id))))
 
+(defn- url-encode [^String s]
+  (URLEncoder/encode s StandardCharsets/UTF_8))
+
+(defn- installation-token-uri
+  [github-api-url installation-id]
+  (-> (URI/create (str github-api-url "/"))
+      (.resolve (str "app/installations/" (url-encode (str installation-id)) "/access_tokens"))
+      .normalize
+      .toString))
+
 (defn make-token-manager [github-api-url github-app-id private-key-pem-str]
   (let [signing-algorithm (make-signing-algorithm private-key-pem-str)
         cache             (atom (GithubAppTokenCache. {}))]
@@ -91,7 +101,7 @@
      (fn []
        (make-app-token signing-algorithm github-app-id))
      (fn [installation-id]
-       (let [url (uri/resolve-uri (str github-api-url "/") (str "app/installations/" (codec/url-encode (str installation-id)) "/access_tokens"))]
+       (let [url (installation-token-uri github-api-url installation-id)]
          (:body (http/post url
                            {:oauth-token (make-app-token signing-algorithm github-app-id)
                             :as          :json

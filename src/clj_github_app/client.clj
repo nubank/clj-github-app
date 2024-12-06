@@ -2,9 +2,9 @@
   (:require [clj-github-app.token-manager :as token-manager]
             [clj-http.client :as http]
             [clj-http.conn-mgr :as conn-mgr]
-            [clojure.string :as str]
-            [org.bovinegenius.exploding-fish :as uri])
-  (:import (java.lang AutoCloseable)))
+            [clojure.string :as str])
+  (:import (java.lang AutoCloseable)
+           (java.net URI)))
 
 (defprotocol AppClient
   (app-request* [_ opts])
@@ -25,10 +25,11 @@
       (subs trimmed-url-or-path 1)
       trimmed-url-or-path)))
 
-(defn resolve-url [path-or-url github-api-url]
-  (->> path-or-url
-       remove-leading-slash
-       (uri/resolve-uri (str github-api-url "/"))))
+(defn resolve-url [path-or-url ^String github-api-url]
+  (-> (URI/create (str github-api-url "/"))
+      (.resolve ^String (remove-leading-slash path-or-url))
+      .normalize
+      .toString))
 
 (defrecord AppClientImpl [github-api-url token-manager connection-pool]
   AppClient
