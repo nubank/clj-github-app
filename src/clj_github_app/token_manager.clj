@@ -1,12 +1,12 @@
 (ns clj-github-app.token-manager
   (:require [clj-http.client :as http]
-            [clojure.core.cache :as cache]
-            [ring.util.codec :as codec])
+            [clojure.core.cache :as cache])
   (:import (clojure.core.cache CacheProtocol)
            (com.auth0.jwt JWT)
            (com.auth0.jwt.algorithms Algorithm)
            (java.io StringReader)
-           (java.net URI)
+           (java.net URI URLEncoder)
+           (java.nio.charset StandardCharsets)
            (java.security KeyFactory)
            (java.security.spec PKCS8EncodedKeySpec)
            (java.text SimpleDateFormat)
@@ -83,10 +83,13 @@
     (:token (cache/lookup (swap! cache cache/through-cache installation-id get-installation-token-fn)
                           installation-id))))
 
+(defn- url-encode [^String s]
+  (URLEncoder/encode s StandardCharsets/UTF_8))
+
 (defn- installation-token-uri
   [github-api-url installation-id]
   (-> (URI/create (str github-api-url "/"))
-      (.resolve (str "app/installations/" (codec/url-encode (str installation-id)) "/access_tokens"))
+      (.resolve (str "app/installations/" (url-encode (str installation-id)) "/access_tokens"))
       .normalize
       .toString))
 

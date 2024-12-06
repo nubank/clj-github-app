@@ -14,7 +14,6 @@
                  [org.bouncycastle/bcpkix-jdk18on "1.79"]
                  [org.bouncycastle/bcpg-jdk18on "1.79"]
                  [pandect/pandect "1.0.2"]
-                 [ring/ring-codec "1.2.0"]
                  [crypto-equality/crypto-equality "1.0.1"]]
   :plugins [[lein-ancient "0.7.0"]
             [lein-changelog "0.3.2"]
